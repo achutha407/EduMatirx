@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="views/css/faculty.css"> <!-- Using faculty.css -->
+    <link rel="icon" type="image/png" href="views/pics/favicom.png">
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-analytics.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+const db = getFirestore();
+
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyAXGfmUbYLpI4U8SDJs_M0zDy6ciI2JwjQ",
+          authDomain: "college-management407.firebaseapp.com",
+          projectId: "college-management407",
+          storageBucket: "college-management407.firebasestorage.app",
+          messagingSenderId: "170224812080",
+          appId: "1:170224812080:web:5cf02aa34a913d81a02df5",
+          measurementId: "G-MTDLPNNF87"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+      </script>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <img src="views/pics/1.png" alt="Faculty Photo" class="faculty-photo">
+        <h2 class="dashboard-title">STUDENT DASHBOARD</h2>
+
+            <ul>
+                <button> Dashboard</button>
+                <li><button id="view-attendance">📅 View Attendance</button></li>
+                <li><button id="view-marks">📊 View Marks</button></li>
+                <li><button id="pay-fees">💰 Pay Fees</button></li>
+                <li><button id="logout">📖 Logout</button></li>
+            </ul>
+    
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="card">
+            <h2>Student Dashboard</h2>
+
+            <div class="section" id="attendance-section">
+                <h3>📅 View Attendance</h3>
+                <p>Your attendance details will be displayed here.</p>
+            </div>
+
+            <div class="section" id="marks-section">
+                <h3>📊 View Marks</h3>
+                <p>Your marks details will be displayed here.</p>
+            </div>
+
+            <div class="section" id="fees-section">
+                <h3>💰 Pay Fees</h3>
+                <button id="pay-now">Pay Now</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="views/js/student.js"></script>
+</body>
+</html>
