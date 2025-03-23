@@ -12,8 +12,8 @@ EduMatrix is a **dynamic and structured platform** designed to streamline colleg
 
 ## 🛠️ Tech Stack  
 - **Frontend:** HTML, CSS, JavaScript  
-- **Backend:** Firebase Firestore & Authentication  
-- **Hosting:** Firebase  
+- **Backend:** MySql and Xampp  
+- **Hosting:** Xampp  
 
 ## 🚀 Getting Started  
 1. **Clone the repository:**  
