@@ -1,0 +1,8 @@
+Array
+(
+    [id] => 4
+    [physics] => 12
+    [chemistry] => 13
+    [maths] => 23
+    [biology] => 43
+)
