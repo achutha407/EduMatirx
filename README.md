@@ -2,7 +2,7 @@
 
 # 🏫 EduMatrix – The Ultimate College Management System  
 
-EduMatrix is a **dynamic and structured platform** designed to streamline college administration. It provides a **seamless experience** for students and faculty to manage academics, attendance, and payments with ease.  
+EduMatrix is a **dynamic and structured platform** designed to streamline college administration. It provides a **seamless experience** for students and faculty to manage academics, attendance, and payments with ease.  BASED ON "ADVITYA PU COLLEGE"
 
 ## ✨ Features  
 ✅ **Student & Faculty Login** – Secure authentication for different roles.  
