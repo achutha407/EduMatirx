@@ -1,3 +1,5 @@
+![HyperKcal Screenshot](views/pics/favicom.png) 
+
 # 🏫 EduMatrix – The Ultimate College Management System  
 
 EduMatrix is a **dynamic and structured platform** designed to streamline college administration. It provides a **seamless experience** for students and faculty to manage academics, attendance, and payments with ease.  
