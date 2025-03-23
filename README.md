@@ -1,4 +1,4 @@
-![HyperKcal Screenshot](views/pics/favicom.png) 
+![HyperKcal Screenshot](views/pics/1.png) 
 
 # 🏫 EduMatrix – The Ultimate College Management System  
 
