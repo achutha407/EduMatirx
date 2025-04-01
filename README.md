@@ -18,5 +18,5 @@ EduMatrix is a **dynamic and structured platform** designed to streamline colleg
 
 ## 🚀 Getting Started
 **CREDENTIALS ADMIN-** 
-**MAIL-** admin@advitya.in 
-**PASS-** 407407
+- **MAIL-** admin@advitya.in 
+- **PASS-** 407407
