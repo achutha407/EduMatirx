@@ -17,8 +17,7 @@ EduMatrix is a **dynamic and structured platform** designed to streamline colleg
 - **Backend:** MySql and PHP  
 - **Hosting:** Xampp 
 
-## 🚀 Getting Started  
-1. **Clone the repository:**  
-   ```bash
-   git clone https://github.com/yourusername/EduMatrix.git
-   cd EduMatrix
+## 🚀 Getting Started
+**CREDENTIALS ADMIN-** 
+**MAIL-** admin@advitya.in 
+**PASS-** 407407
