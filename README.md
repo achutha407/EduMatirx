@@ -14,8 +14,7 @@ EduMatrix is a **dynamic and structured platform** designed to streamline colleg
 
 ## 🛠️ Tech Stack  
 - **Frontend:** HTML, CSS, JavaScript  
-- **Backend:** MySql and PHP  
-- **Hosting:** Xampp 
+- **Backend:** Indexed DB (also HAS THE SUPPORT OF PHP) 
 
 ## 🚀 Getting Started
 **CREDENTIALS ADMIN-** 
