@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="views/pics/favicom.png">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="views/css/student.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Student Dashboard</h1>
+        
+        <!-- Navigation Tabs -->
+        <div class="tabs">
+            <button class="tab-button active" onclick="openTab('dashboard')">Dashboard</button>
+            <button class="tab-button" onclick="openTab('payment')">Payment Gateway</button>
+            <button class="logout-button" onclick="logout()">Logout</button>
+        </div>
+<!-- Student ID Popup -->
+<div id="studentIdPopup" class="popup-overlay">
+    <div class="popup-content">
+        <h2>Enter Your Student ID</h2>
+        <input type="text" id="studentIdInput" placeholder="Enter Student ID">
+        <button onclick="submitStudentId()">Submit</button>
+    </div>
+</div>
+
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+            <h2>Student Details</h2>
+      
+            <table class="styled-table">
+                <tr><th>ID</th><td id="studentID"></td><td id="genderEmoji"></td></tr>
+                <tr><th>Name</th><td colspan="2" id="studentName"></td></tr>
+                <tr><th>Class</th><td colspan="2" id="studentClass"></td></tr>
+                <tr><th>Department</th><td colspan="2" id="studentDepartment"></td></tr>
+                <tr><th>Attendance</th><td colspan="2" id="attendanceRecord">Loading...</td></tr>
+                <tr><th>Marks</th><td colspan="2" id="marksRecord">Loading...</td></tr>
+                <tr><th>Assigned Fees</th><td colspan="2" id="feesRecord">Loading...</td></tr>
+            </table>
+           </div>
+        <!-- Payment Gateway Tab -->
+<!-- Payment Gateway Tab -->
+<div id="payment" class="tab-content">
+    <h2>Payment Gateway</h2>
+    <p><strong>Pending Fees:</strong> <span id="pendingFees"></span></p>
+
+    <div class="payment-options">
+        <label><input type="radio" name="paymentMethod" value="upi" checked onclick="togglePayment()"> Pay via UPI</label>
+        <label><input type="radio" name="paymentMethod" value="card" onclick="togglePayment()"> Pay via Credit/Debit Card</label>
+    </div>
+
+    <!-- UPI Section -->
+    <div id="upiSection">
+        
+        <img src="views/pics/QRCode.png" alt="UPI QR Code" class="upi-qr">
+    </div>
+
+    <!-- Card Payment Section -->
+    <div id="cardSection">
+        <input type="text" placeholder="Card Number">
+        <input type="text" placeholder="MM/YY">
+        <input type="text" placeholder="CVV">
+        <input type="text" placeholder="Cardholder Name">
+    </div>
+
+    <button class="payno" onclick="makeFakePayment()">Pay Now</button>
+</div>
+<div id="paymentNotification" class="notification">Payment Successful! ✅</div>
+
+    <script src="views/js/student.js" defer></script>
+</body>
+</html>
