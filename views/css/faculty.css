@@ -1,0 +1,161 @@
+body {
+    font-family: Arial, sans-serif;
+    background: url('../pics/faculty.jpg') no-repeat center center fixed;
+    background-size: cover;
+    text-align: center;
+    color: black;
+}
+
+.container {
+    width: 80%;
+    
+    margin: 50px auto; /* Added top margin */
+    
+    padding-top: 20%;
+    padding: 10px;
+    background:  rgba(255, 255, 255, 0.9); /* Changed to white */
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Softer shadow */
+}
+
+h1 {
+    color: #333; /* Darker text for better contrast */
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    padding: 12px 24px;
+    border: none;
+    cursor: pointer;
+    background-color: #007BFF;
+    color: white;
+    margin: 0 5px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out;
+}
+
+.tab-btn:hover {
+    background-color: #0056b3;
+}
+
+.tab-btn.active {
+    background-color: #0056b3;
+}
+
+/* Tab Content */
+.tab-content {
+    display: none;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    color: black;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+th {
+    background-color: #007BFF;
+    color: white;
+    text-transform: uppercase;
+}
+
+td {
+    font-weight: bold;
+}
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #28a745; /* Green for success */
+    color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    display: none;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* Buttons */
+button {
+    margin-top: 20px;
+    padding: 12px 18px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Logout Button */
+#logoutBtn {
+    background-color: red;
+    transition: background 0.3s ease-in-out;
+}
+
+#logoutBtn:hover {
+    background-color: darkred;
+}
+
+/* Fade-In Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Style for the last column */
+.action-column {
+    text-align: center;
+    padding: 10px;
+}
+
+/* Style for delete button */
+.delete-btn {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.delete-btn:hover {
+    background-color: darkred;
+}

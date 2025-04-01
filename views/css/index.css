@@ -1,0 +1,217 @@
+/* Global Styles */
+body {
+    background: url('../pics/login.jpg') no-repeat center center/cover;
+    filter: brightness(80%); /* Darkened a bit */
+    text-align: center;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    flex-direction: column;
+}
+.background-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2); /* Darken effect */
+}
+/* Align radio buttons side by side */
+/* Ensure radio buttons are side by side */
+.gender-container {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space between items */
+}
+
+.gender-container input[type="radio"] {
+    margin: 0;
+    cursor: pointer;
+}
+
+.gender-container label {
+    cursor: pointer;
+}
+
+/* College Logo */
+.college-logo {
+    width: 300px; /* Adjust size as needed */
+    margin-bottom: 5px;
+}
+
+/* College Name */
+.college-name {
+    font-size: 3em;
+    color: white;
+    font-weight: bold;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    margin:  0;
+}
+
+/* Tagline with Fade Effect */
+.tagline {
+    color: #fff;
+    font-size: 1.4em;
+    font-weight: bold;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9);
+    animation: fadeText 4s infinite;
+    margin-top: 5px;
+}
+
+@keyframes fadeText {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* Button Styles */
+.blue-btn, .green-btn {
+    width: 250px;
+    padding: 12px;
+    margin: 10px;
+    font-size: 1.2em;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
+}
+
+.blue-btn {
+    background-color: blue;
+    color: white;
+}
+.blue-btnl {
+    background-color: blue;
+    color: white;
+}
+#class {
+    display: none; /* Initially hidden for Faculty */
+}
+
+
+
+/* Button Hover Effects */
+.blue-btn:hover {
+    background-color: darkblue;
+    transform: scale(1.05);
+}
+
+/* Modal Background */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+.modal2 {
+    display: none;
+    padding-top: 2%;
+    padding-bottom: 5%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 90vh;
+        background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+/* Modal Content */
+.modal-content {
+    background: white;
+    padding: 20px;
+    width: 350px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease-in-out;
+    max-height: 85vh; 
+    overflow-y: auto;
+}
+
+/* Close Button */
+.close {
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+/* Input Fields */
+.modal-content input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+/* Login Button */
+.modal-content button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
+    font-size: 1em;
+}
+
+/* Green Button */
+.green-btn {
+    background-color: rgb(252, 0, 0);
+    color: white;
+    
+}
+
+.green-btn:hover {
+    background-color: rgb(123, 1, 1);
+    transform: scale(1.05);
+}
+
+/* Fade Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.blue-btnl {
+    background-color: blue;
+    color: white;
+  
+}
+
+.blue-btnl:hover {
+    background-color: darkblue;
+    transform: scale(1.05);
+}
+
+
+/* Notification Slider */
+.notification {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: blue;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: none;
+    font-weight: bold;
+}

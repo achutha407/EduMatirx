@@ -1,0 +1,220 @@
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('../pics/stident.jpg');
+    background-size: cover;
+    text-align: center;
+}
+.tab-button:hover, .logout-button:hover {
+    filter: brightness(0.8); /* Darkens the button */
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.9);
+    width: 80%;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.tabs {
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    background: blue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.tab-button.active {
+    background: darkblue;
+}
+
+.logout-button {
+    background: red;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+.payment-options {
+    margin: 15px 0;
+    font-size: 18px;
+}
+
+.payment-options label {
+    display: block;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+#upiSection {
+    text-align: center;
+    display: block;
+}
+
+.upi-qr {
+    width: 150px;
+    height: 150px;
+    margin-top: 10px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+}
+
+#cardSection {
+    display: none;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+#cardSection input {
+    width: 90%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    display: block;
+}
+
+button {
+    background: #28a745;
+    color: white;
+    padding: 12px;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+
+
+.styled-table {
+    width: 90%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-left: 40px;
+}
+
+.styled-table th, .styled-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.styled-table th {
+    background-color: #007BFF;
+    color: white;
+}
+
+.styled-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.styled-table tr:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.payno{
+margin-top: 2%;
+}
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: -300px; /* Hidden by default */
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    transition: right 0.5s ease-in-out;
+}
+
+.notification.show {
+    right: 20px; /* Slide in */
+}
+
+/* Popup Overlay */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s;
+}
+
+/* Popup Box */
+.popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Input & Button */
+.popup-content input {
+    width: 80%;
+    padding: 8px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.popup-content button {
+    padding: 8px 15px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.popup-content button:hover {
+    background: #0056b3;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Show Popup */
+.show-popup {
+    visibility: visible;
+    opacity: 1;
+}
