@@ -1,422 +1,234 @@
-console.log("✅ faculty.js is loaded!");
-
-document.addEventListener("DOMContentLoaded", function () {
-    console.log("✅ DOM is fully loaded!");
-
-    // Check if the user is a faculty member
-    let userRole = localStorage.getItem("userRole");
-    console.log("User Role:", userRole);
-
-    if (userRole !== "faculty") {
-        alert("Unauthorized access!");
-        window.location.href = "index.html";
-    }else {
-        // Open the dashboard section by default
-        showSection("student-data");  // Replace "student-data" with your dashboard section ID
-    }
-
-    // Check if buttons exist before attaching event listeners
-    function checkButton(id) {
-        const btn = document.getElementById(id);
-        if (btn) {
-            console.log(`✅ Button found: #${id}`);
-            return btn;
-        } else {
-            console.error(`❌ ERROR: Button not found: #${id}`);
-            return null;
-        }
-    }
-
-    // Attach event listeners with error handling
-    function addClickListener(id, callback) {
-        const btn = checkButton(id);
-        if (btn) {
-            btn.addEventListener("click", callback);
-        }
-    }
-
-    // Sidebar Navigation
-    addClickListener("dashboard", () => showSection("student-data"));
-    addClickListener("create-student", () => showSection("student-form"));
-    addClickListener("mark-attendance", () => showSection("attendance-section"));
-    addClickListener("add-marks", () => showSection("marks-section"));
-    addClickListener("assign-fees", () => showSection("fees-section"));
-    addClickListener("logout", () => {
-        localStorage.removeItem("userRole");
-        window.location.href = "index.html";
-    });
-
-    // Show and Hide Sections
-    function showSection(sectionId) {
-        document.querySelectorAll(".main-content > div").forEach(div => div.style.display = "none");
-        const section = document.getElementById(sectionId);
-        if (section) {
-            section.style.display = "block";
-        } else {
-            console.error(`❌ ERROR: Section not found: #${sectionId}`);
-        }
-    }
-    async function loadStudentsForMarks() {
-        try {
-            const response = await fetch("http://localhost/college_management/students.php");
-            const students = await response.json();
-            const marksTableBody = document.querySelector("#marks-table tbody");
-    
-            marksTableBody.innerHTML = ""; // Clear table
-    
-            students.forEach(student => {
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${student.student_id}</td>
-                    <td>${student.name}</td>
-                    <td><input type="number" class="marks-input" data-subject="physics" data-id="${student.student_id}" min="0" max="100"></td>
-                    <td><input type="number" class="marks-input" data-subject="chemistry" data-id="${student.student_id}" min="0" max="100"></td>
-                    <td><input type="number" class="marks-input" data-subject="maths" data-id="${student.student_id}" min="0" max="100"></td>
-                    <td><input type="number" class="marks-input" data-subject="biology" data-id="${student.student_id}" min="0" max="100"></td>
-                    <td class="total-marks">0</td>
-                    <td><button class="save-mark-btn" data-id="${student.student_id}">✔ Save</button></td>
-                `;
-    
-                marksTableBody.appendChild(row);
-            });
-    
-            // Auto-calculate total when marks are entered
-            document.querySelectorAll(".marks-input").forEach(input => {
-                input.addEventListener("input", function () {
-                    const row = this.closest("tr");
-                    const inputs = row.querySelectorAll(".marks-input");
-                    let total = 0;
-    
-                    inputs.forEach(inp => {
-                        total += parseInt(inp.value) || 0;
-                    });
-    
-                    row.querySelector(".total-marks").innerText = total;
-                });
-            });
-    
-            // Add event listener to save marks button
-            document.querySelectorAll(".save-mark-btn").forEach(button => {
-                button.addEventListener("click", function () {
-                    const studentId = this.getAttribute("data-id");
-                    saveMarks(studentId);
-                });
-            });
-    
-        } catch (error) {
-            console.error("Error fetching students:", error);
-        }
-    }
-    function saveMarks(studentId) {
-        const physics = parseInt(document.getElementById(`physics-${studentId}`).value) || 0;
-        const chemistry = parseInt(document.getElementById(`chemistry-${studentId}`).value) || 0;
-        const maths = parseInt(document.getElementById(`maths-${studentId}`).value) || 0;
-        const biology = parseInt(document.getElementById(`biology-${studentId}`).value) || 0;
-    
-        const total = physics + chemistry + maths + biology;
-    
-        let studentMarks = JSON.parse(localStorage.getItem("studentMarks")) || {};
-        studentMarks[studentId] = { physics, chemistry, maths, biology, total };
-        localStorage.setItem("studentMarks", JSON.stringify(studentMarks));
-    
-        document.getElementById(`total-${studentId}`).innerText = total;
-        alert("Marks saved successfully!");
-    }
-    
-    
-    // Load student data when "Add Marks" section is opened
-    document.getElementById("add-marks").addEventListener("click", () => {
-        showSection("marks-section");
-        loadStudentsForMarks();
-    });
-    
-    // Fetch Students from Database
-    async function loadStudents() {
-        try {
-            const response = await fetch("http://localhost/college_management/students.php");
-            const students = await response.json();
-            const studentList = document.getElementById("students-list");
-            const attendanceList = document.getElementById("attendance-list");  // Assuming there's an attendance list container
-    
-            studentList.innerHTML = ""; // Clear existing list
-            attendanceList.innerHTML = ""; // Clear existing attendance list
-    
-            students.forEach(student => {
-                // Create student card
-                const studentDiv = document.createElement("div");
-                studentDiv.classList.add("student-card");
-    
-                // Gender emoji handling
-                const genderEmoji = student.gender === "Male" ? "👦" : "👧";
-    
-                studentDiv.innerHTML = `
-                    <h3>${student.name} ${genderEmoji}</h3>
-                    <p>Student ID: ${student.student_id}</p>
-                    <p>Admission No: ${student.admission_no}</p>
-                    <p>Roll No: ${student.roll_no}</p>
-                    <p>Class & Section: ${student.class_section}</p>
-                    <p>Father's Name: ${student.father_name}</p>
-                    <p>Fee Status: ${student.fee_status}</p>
-                    <button class="delete-btn" data-id="${student.student_id}">Delete</button>
-                `;
-                
-                studentList.appendChild(studentDiv);
-    
-                // Create attendance buttons for each student
-                const attendanceDiv = document.createElement("div");
-                attendanceDiv.classList.add("attendance-item");
-                attendanceDiv.setAttribute("data-student-id", student.student_id);
-    
-                attendanceDiv.innerHTML = `
-                    <p>${student.name}</p>
-                    <button class="present-btn">Present</button>
-                    <button class="absent-btn">Absent</button>
-                `;
-                
-                attendanceList.appendChild(attendanceDiv);
-            });
-    
-            // Delete Button Event Listener
-            const deleteButtons = document.querySelectorAll(".delete-btn");
-            deleteButtons.forEach(button => {
-                button.addEventListener("click", function () {
-                    const studentId = button.getAttribute("data-id");
-                    deleteStudent(studentId); // Call the deleteStudent function
-                });
-            });
-    
-            // Attendance Button Event Listeners
-            document.querySelectorAll(".present-btn").forEach(button => {
-                button.addEventListener("click", function () {
-                    this.classList.add("selected");
-                    this.nextElementSibling.classList.remove("selected"); // Unselect Absent
-                });
-            });
-    
-            document.querySelectorAll(".absent-btn").forEach(button => {
-                button.addEventListener("click", function () {
-                    this.classList.add("selected");
-                    this.previousElementSibling.classList.remove("selected"); // Unselect Present
-                });
-            });
-    
-        } catch (error) {
-            console.error("Error fetching students:", error);
-        }
-    }
-    
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("Faculty Page: Loading students...");
     loadStudents();
-    
-    // Save Attendance
-document.getElementById("save-attendance").addEventListener("click", () => {
-    const attendanceRecords = {};
-    document.querySelectorAll(".attendance-item").forEach(item => {
-        const studentId = item.getAttribute("data-student-id");
-        const present = item.querySelector(".present-btn").classList.contains("selected");
-        attendanceRecords[studentId] = present ? "Present" : "Absent";
-    });
-
-    // Save attendance to localStorage or send to server
-    localStorage.setItem("attendanceRecords", JSON.stringify(attendanceRecords));
-    alert("Attendance saved successfully!");
-});
-// Reset Attendance Selection
-document.getElementById("reset-attendance").addEventListener("click", () => {
-    document.querySelectorAll(".attendance-item").forEach(item => {
-        item.querySelector(".present-btn").classList.remove("selected");
-        item.querySelector(".absent-btn").classList.remove("selected");
-    });
-    alert("Attendance reset successfully!");
 });
 
-    // Delete student record function
-    async function deleteStudent(studentId) {
-        try {
-            const response = await fetch(`http://localhost/college_management/delete_student.php?id=${studentId}`);
-            const data = await response.json();  // This will throw an error if the response isn't valid JSON
-            if (data.success) {
-                alert("Student deleted successfully!");
-                loadStudents(); // Reload the student list after deletion
+function openTab(event, tabName) {
+    document.querySelectorAll(".tab-content").forEach(tab => tab.classList.remove("active"));
+    document.querySelectorAll(".tab-btn").forEach(tab => tab.classList.remove("active"));
+
+    document.getElementById(tabName).classList.add("active");
+    event.currentTarget.classList.add("active");
+}
+
+function loadStudents() {
+    let dbRequest = indexedDB.open("AdvityaDB", 1);
+
+    dbRequest.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("students", "readonly");
+        let studentStore = transaction.objectStore("students");
+
+        let studentTable = document.querySelector("#studentTable tbody");
+        let attendanceTable = document.querySelector("#attendanceTable tbody");
+        let marksTable = document.querySelector("#marksTable tbody");
+        let feesTable = document.querySelector("#feesTable tbody");
+
+        studentTable.innerHTML = "";
+        attendanceTable.innerHTML = "";
+        marksTable.innerHTML = "";
+        feesTable.innerHTML = "";
+
+        studentStore.openCursor().onsuccess = function (event) {
+            let cursor = event.target.result;
+            if (cursor) {
+                let student = cursor.value;
+
+                if (!student || !student.ID) {
+                    console.warn("Skipping undefined student record:", student);
+                    cursor.continue();
+                    return;
+                }
+
+                let genderEmoji = student.Gender === "Male" ? "👦" : "👧";
+
+                // Dashboard Table
+               // Dashboard Table
+studentTable.innerHTML += `
+<tr id="row_${student.ID}">
+    <td>${student.ID} ${genderEmoji}</td>
+    <td>${student.Name}</td>
+    <td>${student.Class}</td>
+    <td>${student.Department}</td>
+    <td class="action-column">
+        <button class="delete-btn" onclick="deleteStudent('${student.ID}')">❌ Delete</button>
+    </td>
+</tr>`;
+
+
+                // Attendance Table
+                attendanceTable.innerHTML += `
+                    <tr>
+                        <td>${student.ID}</td>
+                        <td>${student.Name}</td>
+                        <td><input type="radio" name="attendance_${student.ID}" value="Present"></td>
+                        <td><input type="radio" name="attendance_${student.ID}" value="Absent"></td>
+                    </tr>`;
+
+                // Marks Table
+               // Marks Table
+marksTable.innerHTML += `
+<tr>
+    <td>${student.ID}</td>
+    <td>${student.Name}</td>
+    <td><input type="number" id="sub1_${student.ID}" value="${student.sub1 || 0}" oninput="validateMarks(this)"></td>
+    <td><input type="number" id="sub2_${student.ID}" value="${student.sub2 || 0}" oninput="validateMarks(this)"></td>
+    <td><input type="number" id="sub3_${student.ID}" value="${student.sub3 || 0}" oninput="validateMarks(this)"></td>
+    <td><input type="number" id="sub4_${student.ID}" value="${student.sub4 || 0}" oninput="validateMarks(this)"></td>
+    <td id="total_${student.ID}">${student.total || 0}</td>
+    <td id="percentage_${student.ID}">${student.percentage || 0}%</td>
+</tr>`;
+
+                // Fees Table
+                feesTable.innerHTML += `
+                    <tr>
+                        <td>${student.ID}</td>
+                        <td>${student.Name}</td>
+                        <td><input type="number" id="fee_${student.ID}" value="${student.fee || 0}"></td>
+                    </tr>`;
+
+                cursor.continue();
             } else {
-                alert(`Error deleting student: ${data.message}`);
+                console.log("No more students found.");
             }
-        } catch (error) {
-            console.error("Error deleting student:", error);
-            alert("An error occurred while deleting the student.");
-        }
-    }
-    
-    loadStudents(); // Call this function to initially load the students
-    
+        };
+    };
 
-    // Create Student
-    document.getElementById("create-student-btn").addEventListener("click", async function () {
-        const name = document.getElementById("student-name").value.trim();
-        const studentId = document.getElementById("student-id").value.trim();
-        const admissionNo = document.getElementById("admission-no").value.trim();
-        const rollNo = document.getElementById("roll-no").value.trim();
-        const classSection = document.getElementById("class-section").value.trim();
-        const gender = document.getElementById("gender").value;
-        const fatherName = document.getElementById("father-name").value.trim();
-        const feeStatus = document.getElementById("fee-status").value;
+    dbRequest.onerror = function () {
+        console.error("Error opening IndexedDB");
+    };
+}
 
-        if (!name || !studentId || !admissionNo || !rollNo || !classSection || !fatherName) {
-            alert("Please enter all student details!");
-            return;
-        }
+function deleteStudent(ID) {
+    let dbRequest = indexedDB.open("AdvityaDB", 1);
 
-        const formData = new FormData();
-        formData.append("name", name);
-        formData.append("student_id", studentId);
-        formData.append("admission_no", admissionNo);
-        formData.append("roll_no", rollNo);
-        formData.append("class_section", classSection);
-        formData.append("gender", gender);
-        formData.append("father_name", fatherName);
-        formData.append("fee_status", feeStatus);
+    dbRequest.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("students", "readwrite");
+        let studentStore = transaction.objectStore("students");
 
-        try {
-            const response = await fetch("http://localhost/college_management/students.php", {
-                method: "POST",
-                body: formData
-            });
+        let deleteRequest = studentStore.delete(ID);
 
-            const result = await response.json();
-            alert(result.message);
-            loadStudents(); // Refresh student list
-        } catch (error) {
-            console.error("Error adding student:", error);
-        }
-    });
+        deleteRequest.onsuccess = function () {
+            console.log(`Student ${ID} deleted.`);
+            document.getElementById(`row_${ID}`).remove(); // Remove row from UI
+        };
 
-    // Assign Fees
-    document.getElementById("assign-fees").addEventListener("click", function () {
-        document.getElementById("fees-section").style.display = "block";
-        renderStudentFees();
-    });
+        deleteRequest.onerror = function () {
+            console.error(`Failed to delete student ${ID}`);
+        };
+    };
+}
+function submitAttendance() {
+    let dbRequest = indexedDB.open("AdvityaDB", 1);
 
-    function renderStudentFees() {
-        const feesList = document.getElementById("fees-list");
-        feesList.innerHTML = ''; // Clear previous entries
-        const students = JSON.parse(localStorage.getItem("students")) || [];
+    dbRequest.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("students", "readwrite");
+        let studentStore = transaction.objectStore("students");
 
-        students.forEach((student, index) => {
-            const studentDiv = document.createElement("div");
-            studentDiv.classList.add("student-card");
-            studentDiv.innerHTML = `
-                <h3>${student.name}</h3>
-                <p>Student ID: ${student.studentId}</p>
-                <div>
-                    <label for="fee-${index}">Enter Fee:</label>
-                    <input type="number" id="fee-${index}" placeholder="Fee Amount" min="0">
-                </div>
-                <button class="assign-fee-btn" data-index="${index}">Assign Fee</button>
-            `;
-            feesList.appendChild(studentDiv);
-        });
-
-        // Handle Assign Fee Click
-        feesList.addEventListener("click", (e) => {
-            if (e.target.classList.contains("assign-fee-btn")) {
-                const index = e.target.getAttribute("data-index");
-                const feeAmount = document.getElementById(`fee-${index}`).value;
-                const students = JSON.parse(localStorage.getItem("students")) || [];
-                students[index].fee = feeAmount;
-                localStorage.setItem("students", JSON.stringify(students));
-                alert("Fee Assigned Successfully");
+        studentStore.openCursor().onsuccess = function (event) {
+            let cursor = event.target.result;
+            if (cursor) {
+                let student = cursor.value;
+                let attendance = document.querySelector(`input[name="attendance_${student.ID}"]:checked`);
+                if (attendance) {
+                    student.attendance = attendance.value;
+                    studentStore.put(student);
+                }
+                cursor.continue();
+            } else {
+                showNotification("Attendance submitted successfully!");
             }
-        });
+        };
+    };
+}
+
+function submitMarks() {
+    let dbRequest = indexedDB.open("AdvityaDB", 1);
+
+    dbRequest.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("students", "readwrite");
+        let studentStore = transaction.objectStore("students");
+
+        studentStore.openCursor().onsuccess = function (event) {
+            let cursor = event.target.result;
+            if (cursor) {
+                let student = cursor.value;
+
+                let sub1 = parseInt(document.getElementById(`sub1_${student.ID}`).value) || 0;
+                let sub2 = parseInt(document.getElementById(`sub2_${student.ID}`).value) || 0;
+                let sub3 = parseInt(document.getElementById(`sub3_${student.ID}`).value) || 0;
+                let sub4 = parseInt(document.getElementById(`sub4_${student.ID}`).value) || 0;
+
+                let total = sub1 + sub2 + sub3 + sub4;
+                let percentage = (total / 400) * 100;
+
+                student.sub1 = sub1;
+                student.sub2 = sub2;
+                student.sub3 = sub3;
+                student.sub4 = sub4;
+                student.total = total;
+                student.percentage = percentage.toFixed(2);
+
+                document.getElementById(`total_${student.ID}`).innerText = total;
+                document.getElementById(`percentage_${student.ID}`).innerText = `${percentage.toFixed(2)}%`;
+
+                studentStore.put(student);
+                cursor.continue();
+            } else {
+                showNotification("Marks submitted successfully!");
+            }
+        };
+    };
+}
+
+function submitFees() {
+    let dbRequest = indexedDB.open("AdvityaDB", 1);
+
+    dbRequest.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("students", "readwrite");
+        let studentStore = transaction.objectStore("students");
+
+        studentStore.openCursor().onsuccess = function (event) {
+            let cursor = event.target.result;
+            if (cursor) {
+                let student = cursor.value;
+                let feeAmount = parseInt(document.getElementById(`fee_${student.ID}`).value) || 0;
+                student.fee = feeAmount;
+                studentStore.put(student);
+                cursor.continue();
+            } else {
+                showNotification("Fees assigned successfully!");
+            }
+        };
+    };
+}
+
+function logout() {
+    window.location.href = "index.html";
+}
+
+function validateMarks(input) {
+    let value = parseInt(input.value);
+    if (value > 100) {
+        alert("Marks cannot be greater than 100!");
+        input.value = 100;  // Reset to 100 if exceeded
+    } else if (value < 0) {
+        alert("Marks cannot be negative!");
+        input.value = 0;  // Reset to 0 if negative
     }
+}
 
-    // Mark Attendance
-    document.getElementById("save-attendance").addEventListener("click", () => {
-        const attendanceRecords = {};
-        document.querySelectorAll(".attendance-item").forEach(item => {
-            const studentId = item.getAttribute("data-student-id");
-            const present = item.querySelector(".present-btn").classList.contains("selected");
-            attendanceRecords[studentId] = present ? "Present" : "Absent";
-        });
+function showNotification(message, color = "#28a745") {
+    let notification = document.getElementById("notification");
+    notification.innerText = message;
+    notification.style.backgroundColor = color;
+    notification.style.display = "block";
 
-        localStorage.setItem("attendanceRecords", JSON.stringify(attendanceRecords));
-        alert("Attendance saved successfully!");
-    });
-
-    
-    document.addEventListener("DOMContentLoaded", function () {
-        const addMarksBtn = document.getElementById("add-marks");
-        const marksSection = document.getElementById("marks-section");
-    
-        // Show Marks Section
-        addMarksBtn.addEventListener("click", function () {
-            showSection("marks-section");
-            fetchMarks(); // Load student marks from database
-        });
-    
-        // Function to Show a Section
-        function showSection(sectionId) {
-            document.querySelectorAll(".section").forEach(section => {
-                section.style.display = "none";
-            });
-            document.getElementById(sectionId).style.display = "block";
-        }
-    
-        // Fetch Student Marks from Database
-        function fetchMarks() {
-            fetch("get_marks.php") // Fetch from backend
-                .then(response => response.json())
-                .then(data => {
-                    const tbody = document.querySelector("#marks-table tbody");
-                    tbody.innerHTML = "";
-    
-                    data.forEach(student => {
-                        const row = document.createElement("tr");
-                        row.innerHTML = `
-                            <td>${student.student_id}</td>
-                            <td><input type="number" value="${student.physics}" min="0" max="100" id="physics-${student.student_id}"></td>
-                            <td><input type="number" value="${student.chemistry}" min="0" max="100" id="chemistry-${student.student_id}"></td>
-                            <td><input type="number" value="${student.maths}" min="0" max="100" id="maths-${student.student_id}"></td>
-                            <td><input type="number" value="${student.biology}" min="0" max="100" id="biology-${student.student_id}"></td>
-                            <td id="total-${student.student_id}">${student.total}</td>
-                            <td><button onclick="updateMarks('${student.student_id}')">Update</button></td>
-                        `;
-                        tbody.appendChild(row);
-                    });
-                })
-                .catch(error => console.error("Error fetching marks:", error));
-        }
-    
-        // Update Student Marks in Database
-        function updateMarks(student_id) {
-            const physics = parseInt(document.getElementById(`physics-${student_id}`).value) || 0;
-            const chemistry = parseInt(document.getElementById(`chemistry-${student_id}`).value) || 0;
-            const maths = parseInt(document.getElementById(`maths-${student_id}`).value) || 0;
-            const biology = parseInt(document.getElementById(`biology-${student_id}`).value) || 0;
-        
-            const total = physics + chemistry + maths + biology;
-        
-            // Fetch existing marks from local storage
-            let studentMarks = JSON.parse(localStorage.getItem("studentMarks")) || {};
-            
-            // Update marks for this student
-            studentMarks[student_id] = { physics, chemistry, maths, biology, total };
-            
-            // Save back to local storage
-            localStorage.setItem("studentMarks", JSON.stringify(studentMarks));
-        
-            document.getElementById(`total-${student_id}`).innerText = total;
-            alert("Marks saved successfully!");
-        }
-        
-    });
-   
-    
-    
-    document.addEventListener("DOMContentLoaded", fetchMarks);
-    
-
-    // Logout
-    document.getElementById("logout").addEventListener("click", function () {
-        localStorage.removeItem("userRole");
-        window.location.href = "index.html";
-    });
-});
+    setTimeout(() => {
+        notification.style.display = "none";
+    }, 3000); // Hide after 3 seconds
+}
