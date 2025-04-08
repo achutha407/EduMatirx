@@ -1,4 +1,4 @@
- 
+ ![LOGO](views/pics/1.png)
 
 # 🏫 EduMatrix – The Ultimate College Management System  
 
