@@ -3,7 +3,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 include 'db.php';  // Include the database connection file
 
-// Check if the 'id' parameter is set in the URL to log
+// Check if the 'id' parameter is set in the URL 
 if (isset($_GET['id'])) {
     $studentId = $_GET['id'];
 
