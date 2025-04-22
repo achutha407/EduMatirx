@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $father_name = $_POST['father_name'];
     $fee_status = $_POST['fee_status'];
 
-    // Update query
+    // Update query it
     $sql = "UPDATE students SET name=?, admission_no=?, roll_no=?, class_section=?, father_name=?, fee_status=? WHERE student_id=?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ssssssi", $name, $admission_no, $roll_no, $class_section, $father_name, $fee_status, $student_id);
