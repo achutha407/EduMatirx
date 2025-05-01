@@ -16,7 +16,7 @@ EduMatrix is a **dynamic and structured platform** designed to streamline colleg
 - **Frontend:** HTML, CSS, JavaScript  
 - **Backend:** Indexed DB (also HAS THE SUPPORT OF PHP) 
 
-## 🚀 Getting Started
+## 🚀 To Get Started
 **CREDENTIALS ADMIN-** 
 - **MAIL-** admin@advitya.in 
 - **PASS-** 407407
